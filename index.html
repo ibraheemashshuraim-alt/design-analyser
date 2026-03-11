@@ -108,7 +108,7 @@
 
         /* Smart Profile Dropdown */
         .profile-dropdown-menu {
-            position: absolute; top: 75px; right: 50px; background: rgba(10, 19, 32, 0.95); backdrop-filter: blur(15px);
+            position: absolute; top: calc(100% + 15px); left: 0; right: auto; background: rgba(10, 19, 32, 0.95); backdrop-filter: blur(15px);
             border: 1px solid var(--border-dim); border-radius: 12px; width: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             z-index: 101; display: flex; flex-direction: column; opacity: 0; pointer-events: none;
             transform: translateY(-10px); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -735,7 +735,6 @@
             const looksLoggedIn = localStorage.getItem('dc_user_logged_in') === 'true';
             if (looksLoggedIn) {
                 loginBtn.style.display = 'none';
-                logoutBtn.classList.remove('hidden');
             }
 
             firebase.auth().onAuthStateChanged(async (user) => {
@@ -782,12 +781,6 @@
                 firebase.auth().signInWithPopup(provider).catch((error) => {
                     console.error("Login Error:", error);
                     alert("لاگ ان میں مسئلہ پیش آیا: " + error.message);
-                });
-            });
-
-            logoutBtn?.addEventListener('click', () => {
-                firebase.auth().signOut().then(() => {
-                    localStorage.setItem('dc_user_logged_in', 'false');
                 });
             });
         }
@@ -879,7 +872,7 @@
                     <div class="dropdown-item" onclick="document.getElementById('accModal').classList.remove('hidden')"><i class="fa-solid fa-gear"></i> Settings</div>
                     <div class="dropdown-item" style="color:var(--warning-orange);" onclick="firebase.auth().signOut()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</div>
                 `;
-                document.body.appendChild(menu);
+                authContainer.appendChild(menu);
                 
                 // Close dropdown if clicked outside
                 document.addEventListener('click', (e) => {
