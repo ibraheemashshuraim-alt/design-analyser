@@ -1338,8 +1338,10 @@
         }
 
         function showResults(data) {
-            scannerLine.classList.add('hidden'); resultsOverlay.classList.add('hidden');
-            setTimeout(()=> resultsOverlay.style.display = 'none', 500);
+            scannerLine.classList.add('hidden');
+            loadingOverlay.classList.add('hidden');
+            resultsOverlay.classList.add('hidden');
+            setTimeout(()=> resultsOverlay.style.display = 'none', 10);
 
             panelHeaderText.innerText = "ANALYSIS COMPLETE"; panelHeaderText.style.color = "#00e676";
             exportActions.classList.remove('hidden');
