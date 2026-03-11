@@ -540,11 +540,65 @@
             <div style="margin-bottom: 20px;">
                 <label style="color:var(--text-muted); display:block; margin-bottom:5px;">Language Font</label>
                 <select id="fontFamilySelect" style="width:100%; padding:10px; background:var(--bg-card); color:white; border:1px solid var(--border-dim); border-radius:5px; outline:none; font-family:'Outfit';">
+                    <!-- Standard Fonts -->
                     <option value="'Outfit', 'Noto Nastaliq Urdu', sans-serif">Modern (Outfit + Urdu)</option>
                     <option value="'Roboto', 'Jameel Noori Nastaleeq', sans-serif">Classic (Roboto + Jameel Noori)</option>
                     <option value="'Montserrat', 'Tajawal', sans-serif">Elegant (Montserrat + Arabic)</option>
                     <option value="'Playfair Display', 'Amiri', serif">Premium (Playfair + Amiri)</option>
                     <option value="'Inter', 'Arial', sans-serif">Standard (Inter + Arial)</option>
+                    <option value="'Cairo', sans-serif">Cairo (Modern Arabic)</option>
+                    <option value="'Lalezar', cursive">Lalezar (Bold Arabic)</option>
+                    
+                    <!-- Advanced 50 Google Fonts Additions -->
+                    <option value="'Open Sans', sans-serif">Open Sans</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Raleway', sans-serif">Raleway</option>
+                    <option value="'Oswald', sans-serif">Oswald</option>
+                    <option value="'Ubuntu', sans-serif">Ubuntu</option>
+                    <option value="'Mulish', sans-serif">Mulish</option>
+                    <option value="'Nunito', sans-serif">Nunito</option>
+                    <option value="'Quicksand', sans-serif">Quicksand</option>
+                    <option value="'Rubik', sans-serif">Rubik</option>
+                    <option value="'Work Sans', sans-serif">Work Sans</option>
+                    <option value="'Fira Sans', sans-serif">Fira Sans</option>
+                    <option value="'Barlow', sans-serif">Barlow</option>
+                    <option value="'PT Sans', sans-serif">PT Sans</option>
+                    <option value="'Karla', sans-serif">Karla</option>
+                    <option value="'Hind', sans-serif">Hind</option>
+                    <option value="'Inconsolata', monospace">Inconsolata</option>
+                    <option value="'Merriweather', serif">Merriweather</option>
+                    <option value="'Lora', serif">Lora</option>
+                    <option value="'Playfair Display', serif">Playfair Display Pro</option>
+                    <option value="'Baskerville', serif">Baskerville</option>
+                    <option value="'Crimson Text', serif">Crimson Text</option>
+                    <option value="'EB Garamond', serif">EB Garamond</option>
+                    <option value="'Bitter', serif">Bitter</option>
+                    <option value="'Aleo', serif">Aleo</option>
+                    <option value="'Arvo', serif">Arvo</option>
+                    <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+                    <option value="'Noto Serif', serif">Noto Serif</option>
+                    <option value="'Asar', serif">Asar</option>
+                    <option value="'Taviraj', serif">Taviraj</option>
+                    <option value="'Anton', sans-serif">Anton</option>
+                    <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+                    <option value="'Cabin', sans-serif">Cabin</option>
+                    <option value="'Dancing Script', cursive">Dancing Script</option>
+                    <option value="'Pacifico', cursive">Pacifico</option>
+                    <option value="'Satisfy', cursive">Satisfy</option>
+                    <option value="'Great Vibes', cursive">Great Vibes</option>
+                    <option value="'Sacramento', cursive">Sacramento</option>
+                    <option value="'Caveat', cursive">Caveat</option>
+                    <option value="'Cinzel', serif">Cinzel</option>
+                    <option value="'Abril Fatface', serif">Abril Fatface</option>
+                    <option value="'Lobster', cursive">Lobster</option>
+                    <option value="'Comfortaa', cursive">Comfortaa</option>
+                    <option value="'Righteous', cursive">Righteous</option>
+                    <option value="'Fredoka One', cursive">Fredoka One</option>
+                    <option value="'Fjalla One', sans-serif">Fjalla One</option>
+                    <option value="'Varela Round', sans-serif">Varela Round</option>
+                    <option value="'Zilla Slab', serif">Zilla Slab</option>
+                    <option value="'Bebas Neue', cursive">Bebas Neue</option>
                 </select>
             </div>
             
@@ -552,16 +606,39 @@
         </div>
     </div>
 
-    <!-- Upgrade Modal -->
-    <div id="upgradeModal" class="modal hidden">
+    <!-- Upgrade / Payment Modal -->
+    <div id="upgradeModal" class="modal hidden" style="z-index:1005;">
         <div class="modal-content card" style="text-align: center; border-color: #00f0ff; box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);">
             <span class="close-btn" onclick="document.getElementById('upgradeModal').classList.add('hidden')">&times;</span>
             <div style="font-size: 3rem; color: #00f0ff; margin-bottom: 10px;"><i class="fa-solid fa-crown"></i></div>
-            <h2 style="color: white; font-family: 'Outfit', sans-serif; margin-bottom: 15px;">Unlock Premium Features</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">پریمیم فیچرز ان لاک کریں اور مزید کریڈٹس حاصل کریں۔ اس سے آپ تمام پریمیم ٹولز استعمال کر سکتے ہیں۔</p>
-            <button class="btn browse-btn" style="width: 100%; font-family: 'Outfit', sans-serif; background: linear-gradient(to right, #00f0ff, #0a58ca); border:none; margin-bottom: 10px;" onclick="buyCredits('monthly')"><i class="fa-solid fa-cart-shopping"></i> Monthly Pro - Rs. 500/mo</button>
-            <button class="btn browse-btn" style="width: 100%; font-family: 'Outfit', sans-serif; background: linear-gradient(to right, #b500ff, #ff007a); border:none; margin-bottom: 10px;" onclick="buyCredits('lifetime')"><i class="fa-solid fa-infinity"></i> Lifetime License - Rs. 5000</button>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Secured by Stripe</p>
+            <h2 style="color: white; font-family: 'Outfit', sans-serif; margin-bottom: 5px;">Unlock Premium</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.85rem;">آسان اور محفوظ دستی ادائیگی (SadaPay Manual Payment)</p>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: right; border: 1px solid var(--border-dim);">
+                <p style="color: #fff; margin-bottom: 10px; font-size: 0.95rem;">1. اپنے سادہ پے یا کسی بھی بینک ایپ سے نیچے دیے گئے نمبر پر رقم بھیجیں:</p>
+                <div style="display: flex; justify-content: space-between; background: #0c1626; padding: 10px; border-radius: 6px; direction: ltr; margin-bottom: 5px;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">Account Name:</span>
+                    <strong style="color: #00f0ff;">Abdullah</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; background: #0c1626; padding: 10px; border-radius: 6px; direction: ltr; margin-bottom: 15px;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">SadaPay Number:</span>
+                    <strong style="color: #00e676; letter-spacing: 1px;">03703603184</strong>
+                </div>
+                
+                <p style="color: #fff; margin-bottom: 10px; font-size: 0.95rem;">2. پلان منتخب کریں اور ٹرانزیکشن آئی ڈی (TID) یہاں لکھ کر جمع کروائیں:</p>
+                
+                <select id="paymentPlanSelect" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #0c1626; color: white; border: 1px solid var(--border-dim); border-radius: 6px; font-family: 'Outfit';">
+                    <option value="monthly">Monthly Pro - Rs. 500/mo</option>
+                    <option value="lifetime">Lifetime License - Rs. 5000</option>
+                </select>
+
+                <input type="text" id="tidInput" placeholder="Enter 12-digit TID e.g. 123456789012" maxlength="15" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #0c1626; color: white; border: 1px solid var(--neon-cyan); border-radius: 6px; font-family: 'Outfit'; text-align: center; letter-spacing: 2px;">
+                
+                <button class="btn browse-btn" style="width: 100%; background: linear-gradient(45deg, #00f0ff, #0a58ca); border:none; color: #fff;" onclick="submitTID()"><i class="fa-solid fa-paper-plane"></i> Submit Payment</button>
+                <p id="paymentStatusBox" style="margin-top: 10px; font-size: 0.8rem; text-align: center; display: none;"></p>
+            </div>
+            
+            <p style="font-size: 0.75rem; color: var(--text-muted);">After submission, your account will be manually verified and upgraded shortly.</p>
         </div>
     </div>
 
@@ -584,9 +661,15 @@
                     <option value="lifetime">Lifetime License</option>
                 </select>
             </div>
-            
             <button class="btn browse-btn" style="width:100%; background:linear-gradient(to right, #ff9100, #ff5000); border:none; color:#fff;" onclick="updateUserRole()">Update User Context</button>
-            <p id="adminStatusMsg" style="margin-top:10px; font-size:0.8rem; color:var(--text-muted);"></p>
+            <p id="adminStatusMsg" style="margin-top:10px; font-size:0.8rem; color:var(--text-muted); text-align:center;"></p>
+            
+            <hr style="border-color: var(--border-dim); margin: 25px 0;">
+            
+            <h3 style="color:#00f0ff; margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-money-bill-transfer"></i> Pending Transactions</h3>
+            <div id="pendingTransactionsList" style="max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid var(--border-dim); direction: ltr;">
+                <div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">Fetching...</div>
+            </div>
         </div>
     </div>
 
@@ -957,41 +1040,14 @@
 
         window.addEventListener('load', () => {
             setupFirebaseAuth();
-
-            // Check for Stripe success URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('success') === 'true') {
-                handleSuccessfulPayment(urlParams.get('plan') || 'monthly');
-            }
         });
 
-        async function handleSuccessfulPayment(planType) {
-            // Remove the ?success=true from URL securely
-            const url = new URL(window.location);
-            url.searchParams.delete('success');
-            url.searchParams.delete('plan');
-            window.history.replaceState({}, document.title, url);
-            
-            // Wait for auth state to resolve to get UID
-            setTimeout(() => {
-                const user = firebase.auth().currentUser;
-                if (user) {
-                    const userRef = firebase.firestore().collection('users').doc(user.uid);
-                    userRef.get().then((docSnap) => {
-                        if (docSnap.exists) {
-                            const currentCredits = docSnap.data().credits || 0;
-                            userRef.update({ 
-                                credits: currentCredits + 100,
-                                plan: planType,
-                                isPremium: true 
-                            }).then(() => {
-                                alert("شاندار! پیمنٹ کامیاب ہو گئی، 100 کریڈٹس اور تمام پریمیم فیچرز ایکٹیویٹ ہو گئے ہیں۔ (Payment Successful)");
-                            });
-                        }
-                    }).catch(console.error);
-                }
-            }, 1000);
-        }
+        // Add Google Fonts dynamically
+        const extraGoogleFonts = "Open Sans|Lato|Poppins|Raleway|Oswald|Ubuntu|Mulish|Nunito|Quicksand|Rubik|Work Sans|Fira Sans|Barlow|PT Sans|Karla|Hind|Inconsolata|Merriweather|Lora|Baskerville|Crimson Text|EB Garamond|Bitter|Aleo|Arvo|Libre Baskerville|Noto Serif|Asar|Taviraj|Anton|Josefin Sans|Cabin|Dancing Script|Pacifico|Satisfy|Great Vibes|Sacramento|Caveat|Cinzel|Abril Fatface|Lobster|Comfortaa|Righteous|Fredoka One|Fjalla One|Varela Round|Zilla Slab|Bebas Neue";
+        const linkElem = document.createElement("link");
+        linkElem.href = "https://fonts.googleapis.com/css?family=" + extraGoogleFonts.split('|').join('&family=');
+        linkElem.rel = "stylesheet";
+        document.head.appendChild(linkElem);
 
         // ================ CORE LOGIC ================
         function canAnalyze() {
@@ -1398,19 +1454,53 @@
         }
 
         // ============== Checkout & Premium Features ===============
-        window.buyCredits = function(planType) {
-            // Redirect to Stripe Checkout Link
-            let url = STRIPE_PAYMENT_LINK;
-            if (userState.email) {
-                // Pre-fill email in Stripe checkout if standard Stripe Payment Link is used
-                url += `?prefilled_email=${encodeURIComponent(userState.email)}&plan=${planType}`;
+        window.buyCredits = function() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.getElementById('upgradeModal').classList.remove('hidden');
+            document.getElementById('paymentStatusBox').style.display = 'none';
+            document.getElementById('tidInput').value = '';
+        }
+
+        window.submitTID = async function() {
+            if (!userState.loggedIn) {
+                alert("براہ کرم پہلے لاگ ان کریں۔");
+                return;
             }
-            // Add note that actual Stripe payment links require success_url config in Stripe Dashboard
-            // For dummy test, we append logic directly:
-            if (url.includes('test_dummy_link')) {
-                window.location.href = window.location.href.split('?')[0] + `?success=true&plan=${planType}`;
-            } else {
-                window.location.href = url;
+            
+            const tid = document.getElementById('tidInput').value.trim();
+            const plan = document.getElementById('paymentPlanSelect').value;
+            const statusBox = document.getElementById('paymentStatusBox');
+            
+            if (tid.length < 8) {
+                statusBox.innerText = "Please enter a valid Transaction ID.";
+                statusBox.style.color = "var(--warning-orange)";
+                statusBox.style.display = "block";
+                return;
+            }
+            
+            statusBox.innerText = "Submitting...";
+            statusBox.style.color = "white";
+            statusBox.style.display = "block";
+            
+            try {
+                await firebase.firestore().collection('transactions').add({
+                    uid: userState.uid,
+                    email: userState.email,
+                    tid: tid,
+                    plan: plan,
+                    status: 'pending',
+                    createdAt: new Date()
+                });
+                
+                statusBox.innerText = "✅ TID Submitted successfully! Admin will verify soon.";
+                statusBox.style.color = "var(--success-green)";
+                setTimeout(() => {
+                    document.getElementById('upgradeModal').classList.add('hidden');
+                }, 3000);
+            } catch (error) {
+                console.error("Error submitting TID:", error);
+                statusBox.innerText = "❌ Error: " + error.message;
+                statusBox.style.color = "red";
             }
         }
 
@@ -1432,13 +1522,75 @@
                 const docId = snapshot.docs[0].id;
                 await firebase.firestore().collection('users').doc(docId).update({
                     plan: plan,
-                    isPremium: (plan === 'monthly' || plan === 'lifetime')
+                    isPremium: (plan === 'monthly' || plan === 'lifetime'),
+                    credits: firebase.firestore.FieldValue.increment(500) // Adjust credits on manual upgrade
                 });
-                msgEl.innerText = `Success: User ${email} role changed to ${plan}.`; msgEl.style.color = "#00e676";
+                msgEl.innerText = `Success: User ${email} updated.`; msgEl.style.color = "#00e676";
             } catch (e) {
                 msgEl.innerText = "Error: " + e.message; msgEl.style.color = "red";
             }
         }
+
+        window.loadPendingTransactions = async function() {
+            if (!userState.isAdmin) return;
+            const listEl = document.getElementById('pendingTransactionsList');
+            
+            try {
+                const snapshot = await firebase.firestore().collection('transactions').where('status', '==', 'pending').get();
+                if (snapshot.empty) {
+                    listEl.innerHTML = '<div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">No pending transactions.</div>';
+                    return;
+                }
+                
+                listEl.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    listEl.innerHTML += `
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; border: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="color: white;">${data.email}</strong>
+                                <div style="color: var(--neon-cyan);">TID: ${data.tid}</div>
+                                <div style="color: var(--text-muted); font-size: 0.75rem;">Plan: ${data.plan} | Date: ${data.createdAt?.toDate().toLocaleDateString()||''}</div>
+                            </div>
+                            <button class="btn browse-btn" style="padding: 5px 10px; font-size: 0.8rem; font-family: 'Outfit'; border:1px solid #00e676; background: rgba(0,230,118,0.1); color: #00e676;" onclick="approveTransaction('${doc.id}', '${data.uid}', '${data.plan}', '${data.email}')">Approve</button>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error loading transactions:", error);
+                listEl.innerHTML = `<div style="text-align:center; color: red; font-size: 0.8rem; padding: 20px;">Error: ${error.message}</div>`;
+            }
+        }
+
+        window.approveTransaction = async function(docId, uid, plan, email) {
+            if (!confirm(`Are you sure you want to approve payment for ${email} (${plan})?`)) return;
+            
+            try {
+                // 1. Mark transaction as approved
+                await firebase.firestore().collection('transactions').doc(docId).update({
+                    status: 'approved',
+                    approvedAt: new Date()
+                });
+                
+                // 2. Add credits and update plan in user document
+                await firebase.firestore().collection('users').doc(uid).update({
+                    plan: plan,
+                    isPremium: true,
+                    credits: firebase.firestore.FieldValue.increment(100) // Gives 100 extra credits
+                });
+                
+                alert(`Transaction approved. Credits added to ${email}.`);
+                loadPendingTransactions(); // refresh list
+            } catch (error) {
+                console.error("Error approving:", error);
+                alert("Failed to approve transaction.");
+            }
+        }
+
+        // Add to load handler for admin
+        document.getElementById('btnAdminNav').addEventListener('click', () => {
+            loadPendingTransactions();
+        });
 
         window.handlePremiumFeature = function(featureName) {
             if (userState.isAdmin || userState.isPremium) {
