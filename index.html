@@ -1204,6 +1204,7 @@
             
             uploadContent.classList.add('hidden');
             previewContent.classList.remove('hidden');
+            scannerLine.classList.add('hidden');
             
             const img = new Image();
             img.onload = () => {
@@ -1237,6 +1238,7 @@
             panelHeaderText.innerText = "AI is analyzing your design...";
             panelHeaderText.style.color = "#b500ff";
             resultsOverlay.style.opacity = "1";
+            resultsOverlay.style.display = 'flex';
             resultsOverlay.classList.remove('hidden');
             exportActions.classList.add('hidden');
             document.getElementById('cardGood')?.classList.add('hidden');
