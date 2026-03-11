@@ -499,6 +499,7 @@
         <section class="hidden" id="historyView">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                 <h2 style="color:white; font-family:'Outfit';">Your Past Designs</h2>
+                <button class="btn browse-btn" style="padding: 8px 15px; font-size: 0.9rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: #fff;" onclick="switchTab('dashboard')"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
             </div>
             <div class="history-grid" id="historyContainer">
                 <p style="color:var(--text-muted); padding: 20px;">No history to display.</p>
@@ -778,6 +779,9 @@
 
             loginBtn.addEventListener('click', () => {
                 const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({
+                    prompt: 'select_account'
+                });
                 firebase.auth().signInWithPopup(provider).catch((error) => {
                     console.error("Login Error:", error);
                     alert("لاگ ان میں مسئلہ پیش آیا: " + error.message);
