@@ -773,13 +773,72 @@
             app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
-            console.log("Firebase initialized modularly");
+            
+            // Expose to window for the main script
+            window.app = app;
+            window.auth = auth;
+            window.db = db;
+            window.onAuthStateChanged = onAuthStateChanged;
+            window.signInWithPopup = signInWithPopup;
+            window.GoogleAuthProvider = GoogleAuthProvider;
+            window.doc = doc;
+            window.setDoc = setDoc;
+            window.getDoc = getDoc;
+            window.updateDoc = updateDoc;
+            window.onSnapshot = onSnapshot;
+            window.collection = collection;
+            window.query = query;
+            window.where = where;
+            window.getDocs = getDocs;
+            window.increment = increment;
+            window.addDoc = addDoc;
+            window.orderBy = orderBy;
+            window.limit = limit;
+            
+            // Compatibility object for inline HTML calls
+            window.firebase = {
+                auth: () => ({
+                    signOut: () => signOut(auth),
+                    get currentUser() { return auth.currentUser; }
+                }),
+                firestore: () => ({
+                    collection: (coll) => ({
+                        doc: (dId) => ({
+                            onSnapshot: (cb) => onSnapshot(doc(db, coll, dId), cb),
+                            set: (data) => setDoc(doc(db, coll, dId), data),
+                            update: (data) => updateDoc(doc(db, coll, dId), data)
+                        })
+                    })
+                })
+            };
+            console.log("Firebase initialized modularly and exposed globally.");
         } catch (e) { console.error("Firebase Initialization Error.", e); }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
+        
+        // Re-bind global firebase modular functions to local scope for compat
+        const auth = window.auth;
+        const db = window.db;
+        const onAuthStateChanged = window.onAuthStateChanged;
+        const signInWithPopup = window.signInWithPopup;
+        const GoogleAuthProvider = window.GoogleAuthProvider;
+        const doc = window.doc;
+        const setDoc = window.setDoc;
+        const getDoc = window.getDoc;
+        const updateDoc = window.updateDoc;
+        const onSnapshot = window.onSnapshot;
+        const collection = window.collection;
+        const query = window.query;
+        const where = window.where;
+        const getDocs = window.getDocs;
+        const increment = window.increment;
+        const addDoc = window.addDoc;
+        const orderBy = window.orderBy;
+        const limit = window.limit;
+    
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
 
@@ -853,6 +912,45 @@
             saveApiKeyBtn.classList.remove('hidden'); editApiKeyBtn.classList.add('hidden');
             apiHintText.innerText = "اپنی نئی API Key درج کریں"; apiHintText.style.color = "#ff9100";
         }
+
+        window.loginWithGoogle = async function() {
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Login Error:", error);
+                alert("لاگ ان میں مسئلہ پیش آیا: " + error.message);
+            }
+        };
+
+        window.exportPrint = function() {
+            window.print();
+        };
+
+        window.exportPNG = async function() {
+            const panel = document.getElementById('resultsPanel');
+            const canvas = await html2canvas(panel, { scale: 2, useCORS: true, backgroundColor: '#0a1320' });
+            const link = document.createElement('a');
+            link.download = 'DesignCheck-Report.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        };
+
+        window.exportPDF = async function() {
+            const panel = document.getElementById('resultsPanel');
+            const canvas = await html2canvas(panel, { scale: 2, useCORS: true, backgroundColor: '#0a1320' });
+            const imgData = canvas.toDataURL('image/png');
+            let pdf;
+            if (canvas.width > canvas.height) {
+                pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            } else {
+                pdf = new jspdf.jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            }
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('DesignCheck-Report.pdf');
+        };
 
         // ================ FIREBASE AUTH ================
         function setupFirebaseAuth() {
