@@ -222,15 +222,15 @@
         .card-header { font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: #fff; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--border-dim); padding-bottom: 8px; }
         .card-header i { color: var(--neon-cyan); }
 
-        .data-block label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; font-family: 'Outfit'; }
-        .data-value { font-size: 0.9rem; color: #fff; word-break: break-word; }
-        .ltr-text { direction: ltr; }
+        .data-block label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; font-family: 'Outfit', sans-serif; }
+        .data-value { font-size: 0.95rem; color: #fff; word-break: break-word; font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', 'Outfit', sans-serif; line-height: 1.8; }
+        .ltr-text { direction: ltr; font-family: 'Outfit', sans-serif; }
         .mt-2 { margin-top: 10px; }
 
         /* AI Tips */
-        .ai-tip-box { background: rgba(181, 0, 255, 0.05); border-left: 3px solid var(--neon-purple); padding: 10px; border-radius: 0 8px 8px 0; font-family: 'Noto Nastaliq Urdu', serif; }
+        .ai-tip-box { background: rgba(181, 0, 255, 0.05); border-left: 3px solid var(--neon-purple); padding: 12px; border-radius: 0 8px 8px 0; }
         .tip-badge { display: inline-block; background: var(--neon-purple); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-family: 'Outfit'; font-weight: 600; margin-bottom: 5px; letter-spacing: 0.5px; }
-        .ai-tip-box p { font-size: 0.8rem; color: #eaeaec; margin: 0; line-height: 1.5; }
+        .ai-tip-box p { font-size: 0.9rem; color: #eaeaec; margin: 0; line-height: 1.8; font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', 'Outfit', sans-serif; }
 
         /* Color Palette */
         .color-palette-grid { display: flex; flex-wrap: wrap; gap: 8px; direction: ltr; }
@@ -528,7 +528,11 @@
             <h2 style="color:white; font-family:'Outfit'; margin-bottom:15px;"><i class="fa-solid fa-universal-access"></i> Display Settings</h2>
             
             <div style="margin-bottom: 20px;">
-                <label style="color:var(--text-muted); display:block; margin-bottom:5px;">Text Size (<span id="fontSizeDisplay">100%</span>)</label>
+            <div style="margin-bottom: 20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <label style="color:var(--text-muted);">Text Size (<span id="fontSizeDisplay">100%</span>)</label>
+                    <button style="background:none; border:none; color:var(--neon-cyan); cursor:pointer; font-size:0.8rem; font-family:'Outfit';" onclick="resetFontSize()">Reset to Default</button>
+                </div>
                 <input type="range" id="fontSizeSlider" min="80" max="150" value="100" style="width:100%;">
                 <div style="display:flex; justify-content:space-between; color:var(--text-muted); font-size:0.8rem; direction:ltr;">
                     <span>Small</span><span>Default</span><span>Large</span>
@@ -1031,6 +1035,13 @@
             localStorage.setItem('dcFontSize', e.target.value);
         });
         
+        window.resetFontSize = function() {
+            fontSizeSlider.value = 100;
+            document.documentElement.style.fontSize = '100%';
+            fontSizeDisplay.innerText = '100%';
+            localStorage.setItem('dcFontSize', 100);
+        };
+        
         fontFamilySelect.addEventListener('change', (e) => {
             document.body.style.fontFamily = e.target.value;
             localStorage.setItem('dcFontFamily', e.target.value);
@@ -1148,6 +1159,9 @@
                 },
                 annotationsCommon: { fill: '#00f0ff' },
                 Text: { text: "Design Text..." },
+                tabsIds: [window.FilerobotImageEditor.TABS.ADJUST, window.FilerobotImageEditor.TABS.ANNOTATE, window.FilerobotImageEditor.TABS.WATERMARK, window.FilerobotImageEditor.TABS.FILTERS],
+                defaultTabId: window.FilerobotImageEditor.TABS.ANNOTATE,
+                defaultToolId: window.FilerobotImageEditor.TOOLS.TEXT,
                 translations: {
                     profile: 'Profile',
                     coverPhoto: 'Cover photo',
@@ -1412,6 +1426,7 @@
         }
 
         // ============== Audio / TTS ===============
+        let ttsUtterances = []; // Global array to prevent garbage collection bug in Chrome
         window.playTTS = function(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -1429,10 +1444,24 @@
 
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel(); // Stop anything currently speaking
+                
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = langCode;
                 utterance.rate = 0.9;
                 utterance.pitch = 1;
+                
+                // Chrome bug workaround: keep reference
+                ttsUtterances.push(utterance);
+                
+                utterance.onend = function() {
+                    ttsUtterances = ttsUtterances.filter(u => u !== utterance);
+                };
+
+                // Another Chrome fix: sometimes it gets stuck in paused state after cancel
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+
                 window.speechSynthesis.speak(utterance);
             } else {
                 alert("آپ کا براؤزر Audio کی سہولت فراہم نہیں کرتا۔");
