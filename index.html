@@ -58,6 +58,16 @@
             font-family: 'Outfit', sans-serif; color: var(--text-main); direction: ltr; margin-right: 20px;
         }
 
+        .wa-sales-btn {
+            background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; color: #25D366;
+            padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-family: 'Outfit', sans-serif;
+            text-decoration: none; display: flex; align-items: center; gap: 6px; transition: 0.3s;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.2);
+        }
+        .wa-sales-btn:hover {
+            background: #25D366; color: #fff; box-shadow: 0 0 15px rgba(37, 211, 102, 0.5); transform: translateY(-2px);
+        }
+
         .logo-icon {
             width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
             border-radius: 8px; display: flex; justify-content: center; align-items: center;
@@ -281,6 +291,32 @@
             #resultsPanel { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 20px; box-shadow: none; overflow: visible !important; max-height: none !important; background: #0c1626 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .export-actions, .panel-header-text, .panel-stripe { display: none !important; }
         }
+        .admin-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-dim); padding-bottom: 15px; }
+        .admin-tab { background: none; border: none; color: var(--text-muted); padding: 8px 15px; cursor: pointer; border-radius: 6px; font-family: 'Outfit'; }
+        .admin-tab.active { background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+
+        /* Print Specific CSS Fixes */
+        @media print {
+            body, html { background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
+            .top-nav, .scan-card, .preview-actions, .export-actions, footer { display: none !important; }
+            .main-wrapper { padding: 0 !important; max-width: 100% !important; border:none; }
+            .bento-grid { display: block !important; }
+            .results-card { background: #ffffff !important; border: none !important; box-shadow: none !important; width: 100% !important; padding: 0 !important; height: auto !important; }
+            .results-scroll-area { height: auto !important; overflow: visible !important; padding: 0 !important; }
+            .panel-header-text, .panel-stripe { display: none !important; }
+            .bento-inner-grid { display: block !important; }
+            .inner-card {
+                background: #ffffff !important; border: 1px solid #ddd !important;
+                page-break-inside: avoid !important; margin-bottom: 20px !important;
+                color: #000 !important; box-shadow: none !important;
+            }
+            .card-header, .score-label, .data-block label { color: #333 !important; }
+            .data-value, .score-number { color: #000 !important; text-shadow: none !important; }
+            .ai-tip-box p { color: #333 !important; }
+            .chip-green, .chip-red, .chip-purple { background: transparent !important; color: #000 !important; border-color: #aaa !important; }
+        }
     </style>
 </head>
 
@@ -290,11 +326,13 @@
     <nav class="top-nav">
         <div class="nav-left">
             <div class="brand-logo">
-                <div class="logo-icon"><i class="fa-solid fa-check"></i></div>
-                <span class="brand-name">DesignCheck</span>
-                <span class="ai-badge">AI</span>
+                <div class="logo-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                DesignCheck <span class="ai-badge">AI</span>
             </div>
-            <button class="nav-btn active" id="btnDashboard" onclick="switchTab('dashboard')"><i class="fa-solid fa-border-all"></i> Dashboard</button>
+            <a href="https://wa.me/923703603184?text=I%20want%20to%20claim%20full%20ownership%20of%20DesignCheck" target="_blank" class="wa-sales-btn">
+                <i class="fa-brands fa-whatsapp"></i> Claim Full Ownership
+            </a>
+            <button class="nav-btn active" id="btnDashboard" onclick="switchTab('dashboard')" style="margin-left:20px;"><i class="fa-solid fa-border-all"></i> Dashboard</button>
             <button class="nav-btn" id="btnHistory" onclick="switchTab('history')"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
         </div>
         <div class="nav-right">
@@ -348,9 +386,9 @@
                 </div>
 
                 <!-- Preview State (Hidden initially) -->
-                <div class="preview-content hidden" id="previewContent">
+                <div class="preview-content hidden" id="previewContent" style="position:relative;">
                     <canvas id="editorCanvas"></canvas>
-                    <div id="filerobotEditorContainer" style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:12; display:none;"></div>
+                    <div id="filerobotEditorContainer" style="width:100%; height:100%; position:fixed; top:0; left:0; z-index:9999; display:none; background: #000;"></div>
                     
                     <div class="editor-tools hidden" id="editorTools" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:12px 25px; border-radius:40px; border:1px solid rgba(255,255,255,0.1); display:flex; gap:20px; align-items:center; z-index:15; direction:ltr; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
                         <button class="btn browse-btn" id="editBtn" style="padding:10px 20px; font-size:1rem; background:linear-gradient(45deg, #b500ff, #00f0ff); color:#fff; border:none; border-radius:30px; white-space:nowrap; box-shadow: 0 0 15px rgba(181, 0, 255, 0.4);" onclick="openAdvancedEditor()"><i class="fa-solid fa-pen-ruler"></i> Edit (Canva)</button>
@@ -709,29 +747,34 @@
         <div class="ft-right">© 2024 DesignCheck SaaS <i class="fa-solid fa-star-of-life" style="color:#4a6568"></i></div>
     </footer>
 
-    <!-- Firebase App -->
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
-    
-    <script>
-      const firebaseConfig = {
-          apiKey: "AIzaSyC7f4QH6CSRN6dAhGNm7P4kMHTv12mtdEo",
-          authDomain: "designcheck-8be9f.firebaseapp.com",
-          projectId: "designcheck-8be9f",
-          storageBucket: "designcheck-8be9f.firebasestorage.app",
-          messagingSenderId: "766391064183",
-          appId: "1:766391064183:web:36c6d4368196e3db2bd872",
-          measurementId: "G-R8PZGRMJKS"
-      };
-      
-      try {
-          firebase.initializeApp(firebaseConfig);
-          console.log("Firebase initialized securely");
-      } catch (e) { console.error("Firebase Initialization Error.", e); }
-    </script>
-
     <!-- Libraries for Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- App Logic (Module) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, query, where, getDocs, updateDoc, increment, addDoc, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7f4QH6CSRN6dAhGNm7P4kMHTv12mtdEo",
+            authDomain: "designcheck-8be9f.firebaseapp.com",
+            projectId: "designcheck-8be9f",
+            storageBucket: "designcheck-8be9f.firebasestorage.app",
+            messagingSenderId: "766391064183",
+            appId: "1:766391064183:web:36c6d4368196e3db2bd872",
+            measurementId: "G-R8PZGRMJKS"
+        };
+        
+        let app, auth, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            console.log("Firebase initialized modularly");
+        } catch (e) { console.error("Firebase Initialization Error.", e); }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -812,65 +855,45 @@
 
         // ================ FIREBASE AUTH ================
         function setupFirebaseAuth() {
-            if (typeof firebase === 'undefined') {
+            if (!auth) {
                 console.warn("Firebase JS not loaded.");
                 return;
             }
             
-            // UI Persistence Hook
             const looksLoggedIn = localStorage.getItem('dc_user_logged_in') === 'true';
-            if (looksLoggedIn) {
-                loginBtn.style.display = 'none';
-            }
+            if (looksLoggedIn) loginBtn.style.display = 'none';
 
-            firebase.auth().onAuthStateChanged(async (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     userState.loggedIn = true;
                     userState.uid = user.uid;
                     userState.email = user.email;
                     userState.photoURL = user.photoURL;
                     userState.isAdmin = (user.email === ADMIN_EMAIL);
-                    
-                    if (userState.isAdmin) {
-                        userState.isPremium = true;
-                    }
-                    
+                    if (userState.isAdmin) userState.isPremium = true;
                     localStorage.setItem('dc_user_logged_in', 'true');
                     await loadUserCreditsFromFirestore(user.uid);
                     updateAuthUI(user);
                 } else {
                     userState.loggedIn = false;
-                    userState.uid = null;
-                    userState.email = null;
-                    userState.photoURL = null;
-                    userState.isPremium = false;
-                    userState.isAdmin = false;
-                    userState.plan = 'free';
+                    userState.uid = null; userState.email = null; userState.photoURL = null;
+                    userState.isPremium = false; userState.isAdmin = false; userState.plan = 'free';
                     localStorage.setItem('dc_user_logged_in', 'false');
                     userState.credits = localStorage.getItem('dcGuestCredits') ? parseFloat(localStorage.getItem('dcGuestCredits')) : 10;
-                    
-                    if (unsubscribeCredits) {
-                        unsubscribeCredits();
-                        unsubscribeCredits = null;
-                    }
-
+                    if (unsubscribeCredits) { unsubscribeCredits(); unsubscribeCredits = null; }
                     loginBtn.style.display = 'flex';
                     const chip = document.getElementById('profileChip');
                     if(chip) chip.remove();
                     const menu = document.getElementById('profileDropdown');
-                    if(menu) menu.remove();
+                    if(menu && !menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                    }
                 }
+                updateCreditsDisplay();
             });
 
             loginBtn.addEventListener('click', () => {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.setCustomParameters({
-                    prompt: 'select_account'
-                });
-                firebase.auth().signInWithPopup(provider).catch((error) => {
-                    console.error("Login Error:", error);
-                    alert("لاگ ان میں مسئلہ پیش آیا: " + error.message);
-                });
+                loginWithGoogle();
             });
         }
 
@@ -1223,10 +1246,11 @@
         
         async function loadHistory() {
             const container = document.getElementById('historyContainer');
-            if(!userState.loggedIn) return;
+            if(!userState.loggedIn || !db) return;
             container.innerHTML = '<div class="spinner" style="margin:20px auto;"></div>';
             try {
-                const snapshot = await firebase.firestore().collection('users').doc(userState.uid).collection('history').orderBy('timestamp', 'desc').limit(20).get();
+                const q = query(collection(db, 'users', userState.uid, 'history'), orderBy('timestamp', 'desc'), limit(20));
+                const snapshot = await getDocs(q);
                 if(snapshot.empty) { container.innerHTML = '<p>No history found.</p>'; return; }
                 container.innerHTML = '';
                 currentHistoryCache = [];
@@ -1324,9 +1348,9 @@
                     };
                     showResults(mockData);
                     
-                    if (userState.loggedIn) {
+                    if (userState.loggedIn && db) {
                         try {
-                            await firebase.firestore().collection('users').doc(userState.uid).collection('history').add({
+                            await addDoc(collection(db, 'users', userState.uid, 'history'), {
                                 timestamp: new Date(),
                                 imageBase64: compressedBase64,
                                 results: mockData
@@ -1374,9 +1398,9 @@
                 const resultData = JSON.parse(jsonStr.trim());
                 showResults(resultData);
                 
-                if (userState.loggedIn) {
+                if (userState.loggedIn && db) {
                     try {
-                        await firebase.firestore().collection('users').doc(userState.uid).collection('history').add({
+                        await addDoc(collection(db, 'users', userState.uid, 'history'), {
                             timestamp: new Date(),
                             imageBase64: compressedBase64,
                             results: resultData
@@ -1477,7 +1501,7 @@
         }
 
         window.submitTID = async function() {
-            if (!userState.loggedIn) {
+            if (!userState.loggedIn || !db) {
                 alert("براہ کرم پہلے لاگ ان کریں۔");
                 return;
             }
@@ -1486,19 +1510,23 @@
             const plan = document.getElementById('paymentPlanSelect').value;
             const statusBox = document.getElementById('paymentStatusBox');
             
-            if (tid.length < 8) {
-                statusBox.innerText = "Please enter a valid Transaction ID.";
+            if (tid.length < 12) {
+                statusBox.innerText = "Please enter a valid 12-digit Transaction ID.";
                 statusBox.style.color = "var(--warning-orange)";
                 statusBox.style.display = "block";
                 return;
             }
             
-            statusBox.innerText = "Submitting...";
+            statusBox.innerText = "Submitting & Activating Trial...";
             statusBox.style.color = "white";
             statusBox.style.display = "block";
             
             try {
-                await firebase.firestore().collection('transactions').add({
+                // Instantly give 5 credits for trial
+                const userRef = doc(db, 'users', userState.uid);
+                await updateDoc(userRef, { credits: increment(5) });
+                
+                await addDoc(collection(db, 'transactions'), {
                     uid: userState.uid,
                     email: userState.email,
                     tid: tid,
@@ -1507,16 +1535,21 @@
                     createdAt: new Date()
                 });
                 
-                statusBox.innerText = "✅ TID Submitted successfully! Admin will verify soon.";
+                // Set UI feedback indicating trial mode active
+                userState.credits += 5;
+                updateCreditsDisplay();
+                document.getElementById('apiHintText').innerText = "Verifying Payment... Accessing Trial Features";
+                document.getElementById('apiHintText').style.color = "var(--warning-orange)";
+                
+                statusBox.innerText = "✅ TID Submitted! 5 Trial credits added instantly. Admin will verify soon.";
                 statusBox.style.color = "var(--success-green)";
                 setTimeout(() => {
                     document.getElementById('upgradeModal').classList.add('hidden');
-                }, 3000);
+                }, 4000);
             } catch (error) {
                 console.error("Error submitting TID:", error);
-                
                 if (error.code === 'permission-denied') {
-                    statusBox.innerHTML = "❌ Firebase Permission Denied.<br><br><b>Admin Action Required:</b><br>Go to Firebase Console > Firestore Database > Rules.<br>Change to:<br><code>match /transactions/{doc} { allow read, write: if request.auth != null; }</code>";
+                    statusBox.innerHTML = "❌ Firebase Permission Denied.";
                     statusBox.style.color = "red";
                 } else {
                     statusBox.innerText = "❌ Error: " + error.message;
@@ -1526,7 +1559,7 @@
         }
 
         window.updateUserRole = async function() {
-            if (!userState.isAdmin) return;
+            if (!userState.isAdmin || !db) return;
             const email = document.getElementById('adminUserEmail').value.trim();
             const plan = document.getElementById('adminUserPlan').value;
             const msgEl = document.getElementById('adminStatusMsg');
@@ -1535,16 +1568,17 @@
             msgEl.innerText = "Searching user..."; msgEl.style.color = "var(--text-muted)";
             
             try {
-                const snapshot = await firebase.firestore().collection('users').where('email', '==', email).limit(1).get();
+                const q = query(collection(db, 'users'), where('email', '==', email), limit(1));
+                const snapshot = await getDocs(q);
                 if (snapshot.empty) {
                     msgEl.innerText = "Error: User not found in database."; msgEl.style.color = "red";
                     return;
                 }
                 const docId = snapshot.docs[0].id;
-                await firebase.firestore().collection('users').doc(docId).update({
+                await updateDoc(doc(db, 'users', docId), {
                     plan: plan,
                     isPremium: (plan === 'monthly' || plan === 'lifetime'),
-                    credits: firebase.firestore.FieldValue.increment(500) // Adjust credits on manual upgrade
+                    credits: increment(500)
                 });
                 msgEl.innerText = `Success: User ${email} updated.`; msgEl.style.color = "#00e676";
             } catch (e) {
@@ -1553,27 +1587,30 @@
         }
 
         window.loadPendingTransactions = async function() {
-            if (!userState.isAdmin) return;
+            if (!userState.isAdmin || !db) return;
             const listEl = document.getElementById('pendingTransactionsList');
             
             try {
-                const snapshot = await firebase.firestore().collection('transactions').where('status', '==', 'pending').get();
+                const q = query(collection(db, 'transactions'), where('status', '==', 'pending'));
+                const snapshot = await getDocs(q);
                 if (snapshot.empty) {
                     listEl.innerHTML = '<div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">No pending transactions.</div>';
                     return;
                 }
                 
                 listEl.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const dId = docSnap.id;
+                    const cDate = data.createdAt ? data.createdAt.toDate().toLocaleDateString() : '';
                     listEl.innerHTML += `
                         <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; border: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <strong style="color: white;">${data.email}</strong>
                                 <div style="color: var(--neon-cyan);">TID: ${data.tid}</div>
-                                <div style="color: var(--text-muted); font-size: 0.75rem;">Plan: ${data.plan} | Date: ${data.createdAt?.toDate().toLocaleDateString()||''}</div>
+                                <div style="color: var(--text-muted); font-size: 0.75rem;">Plan: ${data.plan} | Date: ${cDate}</div>
                             </div>
-                            <button class="btn browse-btn" style="padding: 5px 10px; font-size: 0.8rem; font-family: 'Outfit'; border:1px solid #00e676; background: rgba(0,230,118,0.1); color: #00e676;" onclick="approveTransaction('${doc.id}', '${data.uid}', '${data.plan}', '${data.email}')">Approve</button>
+                            <button class="btn browse-btn" style="padding: 5px 10px; font-size: 0.8rem; font-family: 'Outfit'; border:1px solid #00e676; background: rgba(0,230,118,0.1); color: #00e676;" onclick="approveTransaction('${dId}', '${data.uid}', '${data.plan}', '${data.email}')">Approve</button>
                         </div>
                     `;
                 });
@@ -1588,19 +1625,19 @@
             
             try {
                 // 1. Mark transaction as approved
-                await firebase.firestore().collection('transactions').doc(docId).update({
+                await updateDoc(doc(db, 'transactions', docId), {
                     status: 'approved',
                     approvedAt: new Date()
                 });
                 
                 // 2. Add credits and update plan in user document
-                await firebase.firestore().collection('users').doc(uid).update({
+                await updateDoc(doc(db, 'users', uid), {
                     plan: plan,
                     isPremium: true,
-                    credits: firebase.firestore.FieldValue.increment(100) // Gives 100 extra credits
+                    credits: increment(100) // Gives 100 extra credits on approval
                 });
                 
-                alert(`Transaction approved. Credits added to ${email}.`);
+                alert(`Transaction approved. 100 Credits added to ${email}.`);
                 loadPendingTransactions(); // refresh list
             } catch (error) {
                 console.error("Error approving:", error);
