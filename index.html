@@ -818,26 +818,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-        
-        // Re-bind global firebase modular functions to local scope for compat
-        const auth = window.auth;
-        const db = window.db;
-        const onAuthStateChanged = window.onAuthStateChanged;
-        const signInWithPopup = window.signInWithPopup;
-        const GoogleAuthProvider = window.GoogleAuthProvider;
-        const doc = window.doc;
-        const setDoc = window.setDoc;
-        const getDoc = window.getDoc;
-        const updateDoc = window.updateDoc;
-        const onSnapshot = window.onSnapshot;
-        const collection = window.collection;
-        const query = window.query;
-        const where = window.where;
-        const getDocs = window.getDocs;
-        const increment = window.increment;
-        const addDoc = window.addDoc;
-        const orderBy = window.orderBy;
-        const limit = window.limit;
+        let auth, db, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, doc, setDoc, getDoc, updateDoc, onSnapshot, collection, query, where, getDocs, increment, addDoc, orderBy, limit;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            auth = window.auth;
+            db = window.db;
+            onAuthStateChanged = window.onAuthStateChanged;
+            signInWithPopup = window.signInWithPopup;
+            GoogleAuthProvider = window.GoogleAuthProvider;
+            doc = window.doc;
+            setDoc = window.setDoc;
+            getDoc = window.getDoc;
+            updateDoc = window.updateDoc;
+            onSnapshot = window.onSnapshot;
+            collection = window.collection;
+            query = window.query;
+            where = window.where;
+            getDocs = window.getDocs;
+            increment = window.increment;
+            addDoc = window.addDoc;
+            orderBy = window.orderBy;
+            limit = window.limit;
+            setupFirebaseAuth();
+        });
     
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -1170,7 +1173,7 @@
         });
 
         window.addEventListener('load', () => {
-            setupFirebaseAuth();
+            // Setup logic shifted to DOMContentLoaded
         });
 
         // Add Google Fonts dynamically
