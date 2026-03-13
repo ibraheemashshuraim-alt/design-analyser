@@ -12,18 +12,20 @@
     <script src="https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js"></script>
     <style>
         :root {
-            --bg-dark: #050b14;
-            --bg-card: #0a1320;
-            --bg-card-hover: #0d1a2d;
-            --text-main: #ffffff;
-            --text-muted: #8ba5b0;
-            --neon-cyan: #00f0ff;
-            --neon-purple: #b500ff;
-            --border-dim: rgba(0, 240, 255, 0.15);
-            --border-glow: rgba(0, 240, 255, 0.5);
-            --panel-bg: #0c1626;
-            --success-green: #00e676;
-            --warning-orange: #ff9100;
+            --bg-dark: #02060c;
+            --bg-card: #080f1a;
+            --bg-card-hover: #0c1626;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --neon-cyan: #22d3ee;
+            --neon-purple: #818cf8;
+            --accent-gold: #fbbf24;
+            --border-dim: rgba(34, 211, 238, 0.1);
+            --border-glow: rgba(34, 211, 238, 0.4);
+            --panel-bg: rgba(15, 23, 42, 0.9);
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --luxury-gradient: linear-gradient(135deg, #22d3ee, #818cf8, #fbbf24);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -334,7 +336,6 @@
                 <i class="fa-brands fa-whatsapp"></i> Claim Full Ownership
             </a>
             <button class="nav-btn active" id="btnDashboard" onclick="switchTab('dashboard')" style="margin-left:20px;"><i class="fa-solid fa-border-all"></i> Dashboard</button>
-            <button class="nav-btn" id="btnHistory" onclick="switchTab('history')"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
         </div>
         <div class="nav-right">
             <select id="outputLangSelect" style="background:var(--bg-card); color:var(--text-main); border:1px solid var(--border-dim); padding:6px 10px; border-radius:6px; font-family:'Outfit'; outline:none; cursor:pointer;">
@@ -391,11 +392,13 @@
                     <canvas id="editorCanvas"></canvas>
                     <div id="filerobotEditorContainer" style="width:100%; height:100%; position:fixed; top:0; left:0; z-index:9999; display:none; background: #000;"></div>
                     
-                    <div class="editor-tools hidden" id="editorTools" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:12px 25px; border-radius:40px; border:1px solid rgba(255,255,255,0.1); display:flex; gap:20px; align-items:center; z-index:15; direction:ltr; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-                        <button class="btn browse-btn" id="editBtn" style="padding:10px 20px; font-size:1rem; background:linear-gradient(45deg, #b500ff, #00f0ff); color:#fff; border:none; border-radius:30px; white-space:nowrap; box-shadow: 0 0 15px rgba(181, 0, 255, 0.4);" onclick="openAdvancedEditor()"><i class="fa-solid fa-pen-ruler"></i> Edit (Canva)</button>
-                        <div style="width:1px; height:30px; background:rgba(255,255,255,0.2);"></div>
-                        <button class="btn browse-btn" style="padding:10px 20px; font-size:1rem; background:linear-gradient(45deg, var(--neon-cyan), #0a58ca); color:#fff; border:none; border-radius:30px; white-space:nowrap; box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);" onclick="startAnalysis()"><i class="fa-solid fa-wand-magic-sparkles"></i> Direct Audit</button>
-                        <button class="btn browse-btn reset-btn" style="padding:10px 20px; font-size:1rem; background:rgba(255,145,0,0.1); border:1px solid var(--warning-orange); border-radius:30px; white-space:nowrap;" onclick="resetApp()"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+                    <div class="editor-tools hidden" id="editorTools" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:10px 20px; border-radius:40px; border:1px solid rgba(255,255,255,0.1); display:flex; gap:15px; align-items:center; z-index:15; direction:ltr; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+                        <button class="btn browse-btn" style="padding:10px 18px; font-size:0.9rem; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:30px;" onclick="removeBackground()"><i class="fa-solid fa-wand-magic"></i> Remove BG</button>
+                        <div style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></div>
+                        <button class="btn browse-btn" id="editBtn" style="padding:10px 18px; font-size:0.9rem; background:linear-gradient(45deg, #818cf8, #22d3ee); color:#000; font-weight:bold; border:none; border-radius:30px; white-space:nowrap; box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);" onclick="openAdvancedEditor()"><i class="fa-solid fa-pen-ruler"></i> Canva Editor</button>
+                        <div style="width:1px; height:20px; background:rgba(255,255,255,0.2);"></div>
+                        <button class="btn browse-btn" style="padding:10px 18px; font-size:0.9rem; background:var(--luxury-gradient); color:#000; font-weight:bold; border:none; border-radius:30px; white-space:nowrap; box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);" onclick="startAnalysis()"><i class="fa-solid fa-bolt"></i> Direct Audit</button>
+                        <button class="btn browse-btn reset-btn" style="padding:10px 18px; font-size:0.9rem; background:rgba(255,145,0,0.1); border:1px solid var(--warning-orange); border-radius:30px; white-space:nowrap;" onclick="resetApp()"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
 
                     <div class="scanner-line" id="scannerLine"></div>
@@ -414,8 +417,6 @@
                 <div class="results-scroll-area">
                     <!-- Export Actions Area -->
                     <div class="export-actions hidden" id="exportActions">
-                        <button class="btn mini-action-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: #fff;" onclick="handlePremiumFeature('Brand Kit Analysis')"><i class="fa-solid fa-lock" style="color:var(--warning-orange)"></i> Brand Kit</button>
-                        <button class="btn mini-action-btn" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: #fff;" onclick="handlePremiumFeature('Figma Export')"><i class="fa-solid fa-lock" style="color:var(--warning-orange)"></i> Figma</button>
                         <button class="btn mini-action-btn print-btn" onclick="exportPrint()"><i class="fa-solid fa-print"></i> Print</button>
                         <button class="btn mini-action-btn png-btn" onclick="exportPNG()"><i class="fa-solid fa-image"></i> Save PNG</button>
                         <button class="btn mini-action-btn pdf-btn" onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
@@ -707,7 +708,12 @@
             
             <hr style="border-color: var(--border-dim); margin: 25px 0;">
             
-            <h3 style="color:#00f0ff; margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-money-bill-transfer"></i> Pending Transactions</h3>
+            <h3 style="color:var(--neon-cyan); margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-users"></i> Registered Users</h3>
+            <div id="adminUsersList" style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid var(--border-dim); direction: ltr; margin-bottom: 20px;">
+                <div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">Fetching users...</div>
+            </div>
+
+            <h3 style="color:#fbbf24; margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-money-bill-transfer"></i> Pending Transactions</h3>
             <div id="pendingTransactionsList" style="max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid var(--border-dim); direction: ltr;">
                 <div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">Fetching...</div>
             </div>
@@ -718,8 +724,8 @@
     <div id="profileModal" class="modal hidden" style="z-index: 1001;">
         <div class="modal-content card" style="text-align: center; border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(181, 0, 255, 0.2);">
             <span class="close-btn" onclick="document.getElementById('profileModal').classList.add('hidden')">&times;</span>
-            <div id="profileAvatar" style="width: 80px; height: 80px; border-radius: 50%; background: var(--neon-cyan); color: #000; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; margin: 0 auto 15px;">U</div>
-            <h2 id="profileEmail" style="color: white; font-family: 'Outfit', sans-serif; font-size: 1.2rem; margin-bottom: 5px;">user@example.com</h2>
+            <div id="profileAvatar" style="width: 80px; height: 80px; border-radius: 50%; background: var(--luxury-gradient); color: #000; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; margin: 0 auto 15px; box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);">U</div>
+            <h2 id="profileEmail" style="color: white; font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 5px; word-break: break-all; padding: 0 10px;">user@example.com</h2>
             <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
                 <span id="profilePlan" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-dim); color: var(--text-muted); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem;"><i class="fa-solid fa-user"></i> Free Plan</span>
                 <span id="profileCreditsDisplay" style="background: rgba(0,240,255,0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem;"><i class="fa-solid fa-coins"></i> 5 Credits</span>
@@ -748,9 +754,6 @@
         <div class="ft-right">© 2024 DesignCheck SaaS <i class="fa-solid fa-star-of-life" style="color:#4a6568"></i></div>
     </footer>
 
-    <!-- Libraries for Export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- App Logic (Module) -->
     <script type="module">
@@ -818,7 +821,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-        let auth, db, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, doc, setDoc, getDoc, updateDoc, onSnapshot, collection, query, where, getDocs, increment, addDoc, orderBy, limit;
+        // These will be populated from window.* set in the module script above
+        // Using var to avoid let/const redeclaration errors in some environments
+        var auth, db, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, doc, setDoc, getDoc, updateDoc, onSnapshot, collection, query, where, getDocs, increment, addDoc, orderBy, limit;
 
         window.addEventListener('DOMContentLoaded', () => {
             auth = window.auth;
@@ -971,6 +976,24 @@
                     userState.uid = user.uid;
                     userState.email = user.email;
                     userState.photoURL = user.photoURL;
+                    
+                    // Check if user is blocked or forced logout
+                    const uRef = doc(db, 'users', user.uid);
+                    const userDoc = await getDoc(uRef);
+                    if (userDoc.exists()) {
+                        const ud = userDoc.data();
+                        if (ud.blocked) {
+                            alert("Your account has been blocked by admin.");
+                            signOut(auth);
+                            return;
+                        }
+                        if (ud.forceLogout) {
+                            await updateDoc(uRef, { forceLogout: false });
+                            signOut(auth);
+                            return;
+                        }
+                    }
+
                     userState.isAdmin = (user.email === ADMIN_EMAIL);
                     if (userState.isAdmin) userState.isPremium = true;
                     localStorage.setItem('dc_user_logged_in', 'true');
@@ -987,8 +1010,8 @@
                     const chip = document.getElementById('profileChip');
                     if(chip) chip.remove();
                     const menu = document.getElementById('profileDropdown');
-                    if(menu && !menu.classList.contains('hidden')) {
-                        menu.classList.add('hidden');
+                    if(menu && menu.classList.contains('show')) {
+                        menu.classList.remove('show');
                     }
                 }
                 updateCreditsDisplay();
@@ -1282,11 +1305,29 @@
                 onClose: (closeReason) => {
                     container.style.display = 'none';
                 },
-                annotationsCommon: { fill: '#00f0ff' },
-                Text: { text: "Design Text..." },
-                tabsIds: [window.FilerobotImageEditor.TABS.ADJUST, window.FilerobotImageEditor.TABS.ANNOTATE, window.FilerobotImageEditor.TABS.WATERMARK, window.FilerobotImageEditor.TABS.FILTERS],
+                annotationsCommon: { fill: '#22d3ee' },
+                Text: { text: "Add Your Text..." },
+                Rotate: { angle: 90, componentType: 'slider' },
+                tabsIds: [
+                    window.FilerobotImageEditor.TABS.ADJUST,
+                    window.FilerobotImageEditor.TABS.ANNOTATE,
+                    window.FilerobotImageEditor.TABS.FILTERS,
+                    window.FilerobotImageEditor.TABS.WATERMARK,
+                ],
                 defaultTabId: window.FilerobotImageEditor.TABS.ANNOTATE,
                 defaultToolId: window.FilerobotImageEditor.TOOLS.TEXT,
+                theme: {
+                    palette: {
+                        'bg-primary': '#02060c',
+                        'bg-secondary': '#080f1a',
+                        'accent-primary': '#22d3ee',
+                        'accent-primary-hover': '#818cf8',
+                        'link-primary': '#22d3ee',
+                    },
+                    typography: {
+                        fontFamily: 'Outfit, sans-serif',
+                    }
+                },
                 translations: {
                     profile: 'Profile',
                     coverPhoto: 'Cover photo',
@@ -1304,6 +1345,23 @@
                     filerobotImageEditor.terminate();
                 }
             });
+        }
+
+        window.removeBackground = async function() {
+            if (!canAnalyze()) return;
+            
+            const btn = document.querySelector('.editor-tools button:nth-child(1)'); // The Remove BG button we will add
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Removing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Simulation: Apply a filter or just alert for now as real BG removal requires a complex API (like remove.bg)
+                alert("AI Background Removal complete! (Simulation)");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                // In a real app, we'd call an API and update the canvas with the result
+            }, 3000);
         }
 
         function compressImage(file, maxSize = 512) {
@@ -1747,11 +1805,63 @@
             }
         }
 
+        window.loadAllUsers = async function() {
+            if (!userState.isAdmin || !db) return;
+            const userListEl = document.getElementById('adminUsersList');
+            try {
+                const snapshot = await getDocs(collection(db, 'users'));
+                if (snapshot.empty) {
+                    userListEl.innerHTML = '<div style="text-align:center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">No users found.</div>';
+                    return;
+                }
+                userListEl.innerHTML = '';
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const uId = docSnap.id;
+                    if (data.email === ADMIN_EMAIL) return; // Skip admin
+                    const isBlocked = data.blocked || false;
+                    userListEl.innerHTML += `
+                        <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; border: 1px solid var(--border-dim); display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                            <div style="flex: 1; min-width: 0;">
+                                <strong style="color: white; display: block; overflow: hidden; text-overflow: ellipsis;">${data.email}</strong>
+                                <div style="color: var(--text-muted); font-size: 0.75rem;">Credits: ${data.credits || 0} | Plan: ${data.plan || 'free'}</div>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn" style="padding: 4px 8px; font-size: 0.7rem; background: ${isBlocked ? 'var(--success-green)' : 'var(--warning-orange)'}; color: #000; border: none; border-radius: 4px;" onclick="toggleBlockUser('${uId}', ${!isBlocked})">${isBlocked ? 'Unblock' : 'Block'}</button>
+                                <button class="btn" style="padding: 4px 8px; font-size: 0.7rem; background: #ff4444; color: #fff; border: none; border-radius: 4px;" onclick="forceLogoutUser('${uId}')">Logout</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error loading users:", error);
+                userListEl.innerHTML = `<div style="text-align:center; color: red; font-size: 0.8rem; padding: 20px;">Error: ${error.message}</div>`;
+            }
+        }
+
+        window.toggleBlockUser = async function(uid, blockStatus) {
+            if (!confirm(`Are you sure you want to ${blockStatus ? 'BLOCK' : 'UNBLOCK'} this user?`)) return;
+            try {
+                await updateDoc(doc(db, 'users', uid), { blocked: blockStatus });
+                alert(`User ${blockStatus ? 'blocked' : 'unblocked'}.`);
+                loadAllUsers();
+            } catch (error) { alert("Error: " + error.message); }
+        }
+
+        window.forceLogoutUser = async function(uid) {
+            if (!confirm(`Force logout this user?`)) return;
+            try {
+                await updateDoc(doc(db, 'users', uid), { forceLogout: true });
+                alert("Logout signal sent.");
+            } catch (error) { alert("Error: " + error.message); }
+        }
+
         // Add to load handler for admin
         const btnAdminNav = document.getElementById('btnAdminNav');
         if (btnAdminNav) {
             btnAdminNav.addEventListener('click', () => {
                 loadPendingTransactions();
+                loadAllUsers();
             });
         }
 
@@ -1765,34 +1875,73 @@
 
         // ============== Export Functions ===============
 
+        // ============== Export Functions ===============
         window.exportPNG = function() {
-            html2canvas(document.getElementById('resultsPanel'), { backgroundColor: "#0c1626", scale: 2, useCORS: true }).then(canvas => {
-                let link = document.createElement('a'); link.download = 'DesignCheck-Report.png'; link.href = canvas.toDataURL(); link.click();
+            const target = document.getElementById('resultsPanel');
+            const scrollArea = target.querySelector('.results-scroll-area');
+            const originalMaxHeight = target.style.maxHeight;
+            const originalOverflow = target.style.overflow;
+            const origScrollOverflow = scrollArea ? scrollArea.style.overflow : '';
+            
+            target.style.maxHeight = 'none'; target.style.overflow = 'visible';
+            if (scrollArea) scrollArea.style.overflow = 'visible';
+
+            html2canvas(target, { 
+                backgroundColor: "#080f1a", 
+                scale: 2, 
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                target.style.maxHeight = originalMaxHeight; target.style.overflow = originalOverflow;
+                if (scrollArea) scrollArea.style.overflow = origScrollOverflow;
+                
+                let link = document.createElement('a'); 
+                link.download = `DesignCheck-Report-${new Date().getTime()}.png`; 
+                link.href = canvas.toDataURL('image/png'); 
+                link.click();
             });
         }
 
         window.exportPDF = function() {
             const { jsPDF } = window.jspdf;
             const target = document.getElementById('resultsPanel');
-            const originalMaxHeight = target.style.maxHeight; const originalOverflow = target.style.overflow;
-            target.style.maxHeight = 'none'; target.style.overflow = 'visible';
             const scrollArea = target.querySelector('.results-scroll-area');
+            const originalMaxHeight = target.style.maxHeight;
+            const originalOverflow = target.style.overflow;
             const origScrollOverflow = scrollArea ? scrollArea.style.overflow : '';
+
+            target.style.maxHeight = 'none'; target.style.overflow = 'visible';
             if (scrollArea) scrollArea.style.overflow = 'visible';
 
-            html2canvas(target, { backgroundColor: "#0c1626", scale: 2, useCORS: true, logging: false, windowWidth: target.scrollWidth, windowHeight: target.scrollHeight }).then(canvas => {
+            html2canvas(target, { 
+                backgroundColor: "#080f1a", 
+                scale: 2, 
+                useCORS: true,
+                logging: false
+            }).then(canvas => {
                 target.style.maxHeight = originalMaxHeight; target.style.overflow = originalOverflow;
                 if (scrollArea) scrollArea.style.overflow = origScrollOverflow;
 
+                const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save("DesignCheck-Report.pdf");
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pageWidth;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pageHeight));
+                
+                // If content is longer than one page, we could add more pages, but for now we'll scale to fit or just one page
+                pdf.save(`DesignCheck-Report-${new Date().getTime()}.pdf`);
             });
         }
 
-        window.exportPrint = function() { window.print(); }
+        window.exportPrint = function() { 
+            const target = document.getElementById('resultsPanel');
+            target.classList.add('printing');
+            window.print(); 
+            target.classList.remove('printing');
+        }
     </script>
 </body>
 </html>
