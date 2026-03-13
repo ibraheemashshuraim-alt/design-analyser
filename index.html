@@ -319,7 +319,20 @@
             .data-value, .score-number { color: #000 !important; text-shadow: none !important; }
             .ai-tip-box p { color: #333 !important; }
             .chip-green, .chip-red, .chip-purple { background: transparent !important; color: #000 !important; border-color: #aaa !important; }
+        /* Canva Style Sidebar */
         }
+
+        /* Canva Style Sidebar */
+        .canva-sidebar {
+            position: absolute; left: 0; top: 0; bottom: 0; width: 85px; background: #02060c; border-right: 1px solid rgba(255,255,255,0.1); 
+            display: flex; flex-direction: column; gap: 10px; padding: 20px 5px; z-index: 10000;
+        }
+        .sidebar-item {
+            display: flex; flex-direction: column; align-items: center; gap: 5px; color: #8ba5b0; cursor: pointer; padding: 10px 5px; border-radius: 8px; transition: 0.3s;
+        }
+        .sidebar-item:hover { background: rgba(255,255,255,0.05); color: var(--neon-cyan); }
+        .sidebar-item i { font-size: 1.4rem; }
+        .sidebar-item span { font-size: 0.65rem; font-family: 'Outfit'; text-align: center; }
     </style>
 </head>
 
@@ -346,14 +359,14 @@
                 <option value="Persian">فارسی (Persian)</option>
                 <option value="Punjabi">پنجابی (Punjabi)</option>
             </select>
-            <button id="btnAdminNav" class="gear-btn-nav hidden" style="color:#ff9100;" onclick="document.getElementById('adminModal').classList.remove('hidden')" title="Admin Panel">
-                <i class="fa-solid fa-shield-halved"></i>
+            <button id="btnAdminNav" class="gear-btn-nav hidden" style="color:var(--warning-orange); font-size: 1.4rem;" onclick="document.getElementById('adminModal').classList.remove('hidden')" title="Admin Panel">
+                <i class="fa-solid fa-user-shield"></i>
             </button>
             <button class="gear-btn-nav" onclick="document.getElementById('accModal').classList.remove('hidden')" title="Display Settings">
                 <i class="fa-solid fa-universal-access"></i>
             </button>
-            <button class="gear-btn-nav" onclick="document.getElementById('apiSettingsModal').classList.remove('hidden')">
-                <i class="fa-solid fa-gear"></i>
+            <button class="gear-btn-nav" onclick="document.getElementById('apiSettingsModal').classList.remove('hidden')" title="API Settings">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
             </button>
             <div id="authContainer" style="display: flex; align-items: center; gap: 10px; position:relative;">
                 <button class="btn google-login-btn" id="loginBtn">
@@ -390,7 +403,15 @@
                 <!-- Preview State (Hidden initially) -->
                 <div class="preview-content hidden" id="previewContent" style="position:relative;">
                     <canvas id="editorCanvas"></canvas>
-                    <div id="filerobotEditorContainer" style="width:100%; height:100%; position:fixed; top:0; left:0; z-index:9999; display:none; background: #000;"></div>
+                    <div id="filerobotEditorContainer" style="width:100%; height:100%; position:fixed; top:0; left:0; z-index:9999; display:none; background: #000;">
+                        <!-- Canva-style Sidebar Overlay -->
+                        <div class="canva-sidebar">
+                            <div class="sidebar-item" onclick="removeBackground()"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Remove BG</span></div>
+                            <div class="sidebar-item" onclick="filerobotImageEditor.open(window.FilerobotImageEditor.TABS.ANNOTATE, window.FilerobotImageEditor.TOOLS.TEXT)"><i class="fa-solid fa-font"></i> <span>Text</span></div>
+                            <div class="sidebar-item" onclick="filerobotImageEditor.open(window.FilerobotImageEditor.TABS.ANNOTATE, window.FilerobotImageEditor.TOOLS.RECT)"><i class="fa-solid fa-shapes"></i> <span>Shapes</span></div>
+                            <div class="sidebar-item" style="margin-top:auto; background:var(--luxury-gradient); color:#000;" onclick="startAnalysis()"><i class="fa-solid fa-bolt"></i> <span>Direct Audit</span></div>
+                        </div>
+                    </div>
                     
                     <div class="editor-tools hidden" id="editorTools" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); padding:10px 20px; border-radius:40px; border:1px solid rgba(255,255,255,0.1); display:flex; gap:15px; align-items:center; z-index:15; direction:ltr; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
                         <button class="btn browse-btn" style="padding:10px 18px; font-size:0.9rem; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:30px;" onclick="removeBackground()"><i class="fa-solid fa-wand-magic"></i> Remove BG</button>
@@ -994,7 +1015,8 @@
                         }
                     }
 
-                    userState.isAdmin = (user.email === ADMIN_EMAIL);
+                    const adminEmails = ["ibraheemashshuraim@gmail.com", "ibraheemashshuraim-alt@gmail.com", "abdullah.designer@gmail.com"];
+                    userState.isAdmin = adminEmails.includes(user.email.toLowerCase());
                     if (userState.isAdmin) userState.isPremium = true;
                     localStorage.setItem('dc_user_logged_in', 'true');
                     await loadUserCreditsFromFirestore(user.uid);
